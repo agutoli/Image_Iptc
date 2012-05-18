@@ -267,8 +267,7 @@ class Iptc
     }    
     
     /**
-     * create the new image file already 
-     * with the new "IPTC" recorded
+     * completely remove all tags "IPTC" image 
      *
      * @access public
      * @return binary source
@@ -284,8 +283,8 @@ class Iptc
     }
 
     /**
-     * create the new image file already 
-     * with the new "IPTC" recorded
+     * It proper test to ensure that 
+     * the size of the values are supported within the 
      *
      * @param Integer $len - size of the character
      *
