@@ -66,7 +66,7 @@ class Iptc
     /**
      * This variable was checks whether any tag class setada
      *
-     * @var array
+     * @var boolean 
      */
     private $_hasMeta = false;
 
