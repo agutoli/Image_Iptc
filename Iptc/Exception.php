@@ -1,5 +1,4 @@
 <?php
-<?php
 /**
  * Class for manipulating EXIF and IPTC image
  *
