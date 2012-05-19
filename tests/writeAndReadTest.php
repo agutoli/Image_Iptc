@@ -11,6 +11,7 @@ class writeAndReadTest extends PHPUnit_Framework_TestCase
     public function setUp() {
         $this->_iptc = new Iptc('../logo_php.jpg');
         $this->_iptc->set(Iptc::OBJECT_NAME, 'test');
+        $this->_iptc->write();
     }
 
     public function testWriteESP_in_TagCategory() {
