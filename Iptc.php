@@ -117,6 +117,13 @@ class Iptc
                 'Since PHP 4.3 there is a bundled version of the GD lib.'
             );
         }
+       
+        if ( ! file_exists($filename) ) {
+            include 'Iptc/Exception.php';
+            throw new Iptc_Exception(
+                'Image not found!'
+            );
+        }
         
         if ( ! in_array(end(explode('.', $filename)), $this->_allowedExt) ) {
             include 'Iptc/Exception.php';
