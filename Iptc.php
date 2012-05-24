@@ -168,8 +168,11 @@ class Iptc
      */
     public function prepend($tag, $data)
     {
-        array_unshift($this->_meta["2#$tag"], $data);
-        $this->_meta["2#$tag"] = array($this->_meta["2#$tag"]);
+        if ( ! empty($this->_meta["2#$tag"])) {
+            array_unshift($this->_meta["2#$tag"], $data);
+            $data = $this->_meta["2#$tag"];
+        }
+        $this->_meta["2#$tag"] = array( $data );
         $this->_hasMeta        = true;
         return $this;
     }
@@ -185,8 +188,11 @@ class Iptc
      */
     public function append($tag, $data)
     {
-        array_push($this->_meta["2#$tag"], $data);
-        $this->_meta["2#$tag"] = array($this->_meta["2#$tag"]);
+        if ( ! empty($this->_meta["2#$tag"])) {
+            array_push($this->_meta["2#$tag"], $data);
+            $data = $this->_meta["2#$tag"];
+        }
+        $this->_meta["2#$tag"] = array( $data );
         $this->_hasMeta        = true;
         return $this;
     }
