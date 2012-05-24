@@ -12,6 +12,11 @@
  */
 
 /**
+ * Dependencies
+ */
+require 'Iptc/Exception.php';
+
+/**
  * Class for manipulating EXIF and IPTC image
  *
  * @category Image
@@ -104,7 +109,6 @@ class Iptc
          * @since 2.0.1
          */
         if (version_compare(phpversion(), '5.1.0', '<') === true) {
-            include 'Iptc/Exception.php';
             throw new Iptc_Exception(
                 'ERROR: Your PHP version is '.phpversion() . 
                     '. Iptc class requires PHP 5.1.0 or newer.'
@@ -112,16 +116,20 @@ class Iptc
         }
 
         if ( ! extension_loaded('gd') ) {
-            include 'Iptc/Exception.php';
             throw new Iptc_Exception(
                 'Since PHP 4.3 there is a bundled version of the GD lib.'
             );
         }
        
         if ( ! file_exists($filename) ) {
-            include 'Iptc/Exception.php';
             throw new Iptc_Exception(
                 'Image not found!'
+            );
+        }
+       
+        if ( ! is_writable($filename) ) {
+            throw new Iptc_Exception(
+                "File \"{$filename}\" is not writable!"
             );
         }
         
