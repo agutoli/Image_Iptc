@@ -158,6 +158,40 @@ class Iptc
     }
 
     /**
+     * adds an item at the beginning of the array
+     *
+     * @param Integer|const $tag  - Code or const of tag
+     * @param array|mixed   $data - Value of tag
+     *
+     * @return Iptc object
+     * @access public
+     */
+    public function prepend($tag, $data)
+    {
+        array_unshift($this->_meta["2#$tag"], $data);
+        $this->_meta["2#$tag"] = array($this->_meta["2#$tag"]);
+        $this->_hasMeta        = true;
+        return $this;
+    }
+
+    /**
+     * adds an item at the end of the array
+     *
+     * @param Integer|const $tag  - Code or const of tag
+     * @param array|mixed   $data - Value of tag
+     * 
+     * @return Iptc object
+     * @access public
+     */
+    public function append($tag, $data)
+    {
+        array_push($this->_meta["2#$tag"], $data);
+        $this->_meta["2#$tag"] = array($this->_meta["2#$tag"]);
+        $this->_hasMeta        = true;
+        return $this;
+    }
+
+    /**
      * Return fisrt IPTC tag by tag name
      *
      * @param Integer|const $tag - Name of tag
