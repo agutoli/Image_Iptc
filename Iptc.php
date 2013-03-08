@@ -133,7 +133,7 @@ class Iptc
             );
         }
         
-        if ( ! in_array(end(explode('.', $filename)), $this->_allowedExt) ) {
+        if ( ! in_array(end(explode('.', strtolower($filename))), $this->_allowedExt) ) {
             include 'Iptc/Exception.php';
             throw new Iptc_Exception(
                 'Support only for the following extensions: ' . 
