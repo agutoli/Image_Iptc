@@ -12,14 +12,14 @@
         $ArrayOfTags = array();
     }
 
-    $iptc = new Iptc('logo_php.jpg');
+    $iptc = new Iptc('../logo_php.jpg');
     $iptc->set(Iptc::KEYWORDS, $ArrayOfTags);
     $iptc->write();
 
 
   }
   //read details of logo_php.jpg file.
-    $iptc = new Iptc('logo_php.jpg');
+    $iptc = new Iptc('../logo_php.jpg');
     $AllTags = $iptc->fetchAll(Iptc::KEYWORDS);
 
 
@@ -35,6 +35,7 @@
 </head>
 <body>
 <h1 >IPTC Demo - Creating Tags / Keywords in Image.</h1>
+<P><a href="index.html">Other Demos</a></P>
 <form action='' method="post">
   List the Tags you would like to apply to the image, 1 Tag per line.<BR>
   <textarea rows="6" cols=50 name="tags"></textarea>
@@ -43,7 +44,7 @@
 </form>
 <P>
   <Strong>Current Tags in Image</Strong>
-  <img src="logo_php.jpg">
+  <img src="../logo_php.jpg">
   <BR>
   <UL>
   <?php
