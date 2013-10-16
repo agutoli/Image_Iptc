@@ -1,25 +1,22 @@
 <?php
 /**
- * Class for manipulating EXIF and IPTC image
- *
- * PHP version 5
+ * Class to manipulate EXIF and image IPTC
  *
  * @category Image
  * @package  Iptc
- * @author   Bruno Thiago Leite Agutoli <brunotla1@gmail.com>
- * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
- * @link     https://github.com/agutoli
+ * @author   Bruno Thiago Leite Agutoli <bruno.agutoli@gmail.com>
+ * @license  https://github.com/agutoli/Image_Iptc/blob/master/MIT-LICENSE.txt
+ * @link     https://github.com/agutoli/Image_Iptc/
  */
 
 /**
- * Class for manipulating EXIF and IPTC image
+ * Class to manipulate EXIF and image IPTC
  *
  * @category Image
  * @package  Iptc
- * @author   Bruno Thiago Leite Agutoli <brunotla1@gmail.com>
- * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
- * @version  Release: 0.0.1
- * @link     https://github.com/agutoli
+ * @author   Bruno Thiago Leite Agutoli <bruno.agutoli@gmail.com>
+ * @license  https://github.com/agutoli/Image_Iptc/blob/master/MIT-LICENSE.txt
+ * @link     https://github.com/agutoli/Image_Iptc/
  */
 
 class Iptc_Exception extends Exception 
