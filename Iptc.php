@@ -159,7 +159,7 @@ class Iptc
      */
     public function set($tag, $data) 
     {
-        $this->_meta["2#$tag"] = array($data);
+        $this->_meta["2#{$tag}"] = array($data);
         $this->_hasMeta        = true;
         return $this;
     }
@@ -175,11 +175,11 @@ class Iptc
      */
     public function prepend($tag, $data)
     {
-        if ( ! empty($this->_meta["2#$tag"])) {
-            array_unshift($this->_meta["2#$tag"], $data);
-            $data = $this->_meta["2#$tag"];
+        if ( ! empty($this->_meta["2#{$tag}"])) {
+            array_unshift($this->_meta["2#{$tag}"], $data);
+            $data = $this->_meta["2#{$tag}"];
         }
-        $this->_meta["2#$tag"] = array( $data );
+        $this->_meta["2#{$tag}"] = array( $data );
         $this->_hasMeta        = true;
         return $this;
     }
@@ -195,11 +195,11 @@ class Iptc
      */
     public function append($tag, $data)
     {
-        if ( ! empty($this->_meta["2#$tag"])) {
-            array_push($this->_meta["2#$tag"], $data);
-            $data = $this->_meta["2#$tag"];
+        if ( ! empty($this->_meta["2#{$tag}"])) {
+            array_push($this->_meta["2#{$tag}"], $data);
+            $data = $this->_meta["2#{$tag}"];
         }
-        $this->_meta["2#$tag"] = array( $data );
+        $this->_meta["2#{$tag}"] = array( $data );
         $this->_hasMeta        = true;
         return $this;
     }
@@ -216,8 +216,8 @@ class Iptc
      */
     public function fetch($tag) 
     {
-        if (isset($this->_meta["2#$tag"])) {
-            return $this->_meta["2#$tag"][0];
+        if (isset($this->_meta["2#{$tag}"])) {
+            return $this->_meta["2#{$tag}"][0];
         }
         return false;
     }
@@ -234,8 +234,8 @@ class Iptc
      */
     public function fetchAll($tag) 
     {
-        if (isset($this->_meta["2#$tag"])) {
-            return $this->_meta["2#$tag"];
+        if (isset($this->_meta["2#{$tag}"])) {
+            return $this->_meta["2#{$tag}"];
         }
         return false;
     }

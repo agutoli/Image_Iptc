@@ -5,6 +5,14 @@ Class for manipulating EXIF and IPTC image
 
 Includes Demo writing Keywords/Tags and Caption to image.
 
+Contributors
+============
+
+**Special thanks to the following contributors:**
+
+* [Toby Allen](https://github.com/tobya)
+* [netboy](https://github.com/netboy)
+
 ## License
 
 (The MIT License)
