@@ -132,8 +132,10 @@ class Iptc
                 "File \"{$filename}\" is not writable!"
             );
         }
+
+        $parts = explode('.', strtolower($filename));
         
-        if ( ! in_array(end(explode('.', strtolower($filename))), $this->_allowedExt) ) {
+        if ( ! in_array(end($parts), $this->_allowedExt) ) {
             include 'Iptc/Exception.php';
             throw new Iptc_Exception(
                 'Support only for the following extensions: ' . 
