@@ -1,9 +1,44 @@
 Image_Iptc
 ==========
 
-Class for manipulating EXIF and IPTC image
+Specific class for manipulating IPTC/EXIF metadata of jpeg images
 
 Includes Demo writing Keywords/Tags and Caption to image.
+
+Examples
+----------------
+
+### Writing tags
+
+    require 'Iptc.php';
+
+    $iptc = new Iptc('et_betrayed.jpg');
+    
+    $iptc->set(Iptc::CAPTION, array(
+        'NASA finally managed to contact with extraterrestrials, here are a few excerpts from the chat...',
+        'E.T.: Hi Earthlings .\//,',
+        'NASA agent: What do you want from us?',
+        'E.T.: We want to see a show of Katy Perry',
+        'NASA agent: Really? Why?',
+        'E.T.: Why E.T. music reminds me of my ex wife',
+        'NASA agent: What happened to her?',
+        'E.T.: She ran away with the "E.T." protagonist of the movie Steven Spielberg ...',
+        'NASA agent: How sad!! '
+    ));
+    $iptc->write();
+
+    // read tags
+    print_r($iptc->fetchAll(Iptc::CAPTION));
+
+
+Feature Overview
+----------------
+
+* Reading and writing IPTC/EXIF tags
+* Support for array data, can write a list of tags
+* Removing IPTC tags
+* Append and Prepend of tags
+* Fetch and FethAll tags
 
 Contributors
 ============
