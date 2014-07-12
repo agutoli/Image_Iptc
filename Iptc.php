@@ -105,10 +105,10 @@ class Iptc
          * Check PHP version
          * @since 2.0.1
          */
-        if (version_compare(phpversion(), '5.1.0', '<') === true) {
+        if (version_compare(phpversion(), '5.1.3', '<') === true) {
             throw new Iptc_Exception(
                 'ERROR: Your PHP version is '.phpversion() . 
-                    '. Iptc class requires PHP 5.1.0 or newer.'
+                    '. Iptc class requires PHP 5.1.3 or newer.'
             );
         }
 
@@ -148,6 +148,7 @@ class Iptc
         $this->_filename = $filename;
     }
 
+
     /**
      * Set parameters you want to record in a particular tag "IPTC"
      *
@@ -159,6 +160,7 @@ class Iptc
      */
     public function set($tag, $data) 
     {
+        $data = $this->_charset_decode($data);
         $this->_meta["2#{$tag}"] = array($data);
         $this->_hasMeta        = true;
         return $this;
@@ -175,6 +177,7 @@ class Iptc
      */
     public function prepend($tag, $data)
     {
+        $data = $this->_charset_decode($data);
         if ( ! empty($this->_meta["2#{$tag}"])) {
             array_unshift($this->_meta["2#{$tag}"], $data);
             $data = $this->_meta["2#{$tag}"];
@@ -195,6 +198,7 @@ class Iptc
      */
     public function append($tag, $data)
     {
+        $data = $this->_charset_decode($data);
         if ( ! empty($this->_meta["2#{$tag}"])) {
             array_push($this->_meta["2#{$tag}"], $data);
             $data = $this->_meta["2#{$tag}"];
@@ -217,7 +221,7 @@ class Iptc
     public function fetch($tag) 
     {
         if (isset($this->_meta["2#{$tag}"])) {
-            return $this->_meta["2#{$tag}"][0];
+            return $this->_charset_encode($this->_meta["2#{$tag}"][0]);
         }
         return false;
     }
@@ -235,7 +239,7 @@ class Iptc
     public function fetchAll($tag) 
     {
         if (isset($this->_meta["2#{$tag}"])) {
-            return $this->_meta["2#{$tag}"];
+            return $this->_charset_encode($this->_meta["2#{$tag}"]);
         }
         return false;
     }
@@ -316,6 +320,7 @@ class Iptc
 
         if ($file = fopen($this->_filename, "w")) {
             fwrite($file, $content);
+            //fwrite($file, pack("CCC",0xef,0xbb,0xbf));
             fclose($file);
             return true;
         }
@@ -362,5 +367,37 @@ class Iptc
             chr(($len >> 16) & 0xff) .
             chr(($len >> 8 ) & 0xff) .
             chr(($len ) & 0xff);
+    }
+    
+    /**
+     * Decode charset utf8 before being saved 
+     *
+     * @param String $data
+     * @access private
+     * @return decoded string
+     */
+    private function _charset_decode($data) {
+        $result   = [];
+        $iterator = new RecursiveIteratorIterator(new RecursiveArrayIterator($data)); 
+        foreach($iterator as $key=>$value) {
+            $result[] = utf8_decode($value);
+        }
+        return $result;
+    }
+
+    /**
+     * Encode charset to utf8 before being saved 
+     *
+     * @param String $data
+     * @access private
+     * @return encoded string
+     */
+    private function _charset_encode($data) {
+        $result   = [];
+        $iterator = new RecursiveIteratorIterator(new RecursiveArrayIterator($data)); 
+        foreach($iterator as $key=>$value) {
+            $result[] = utf8_encode($value);
+        }
+        return $result;
     }
 }
