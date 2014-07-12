@@ -377,10 +377,14 @@ class Iptc
      * @return decoded string
      */
     private function _charset_decode($data) {
-        $result   = array();
-        $iterator = new RecursiveIteratorIterator(new RecursiveArrayIterator($data)); 
-        foreach($iterator as $key=>$value) {
-            $result[] = utf8_decode($value);
+        $result = array();
+        if (is_array($data)) {
+            $iterator = new RecursiveIteratorIterator(new RecursiveArrayIterator($data)); 
+            foreach($iterator as $key=>$value) {
+                $result[] = utf8_decode($value);
+            }
+        } else {
+            return utf8_decode($data);
         }
         return $result;
     }
@@ -393,10 +397,14 @@ class Iptc
      * @return encoded string
      */
     private function _charset_encode($data) {
-        $result   = array();
-        $iterator = new RecursiveIteratorIterator(new RecursiveArrayIterator($data)); 
-        foreach($iterator as $key=>$value) {
-            $result[] = utf8_encode($value);
+        $result = array();
+        if (is_array($data)) {
+            $iterator = new RecursiveIteratorIterator(new RecursiveArrayIterator($data)); 
+            foreach($iterator as $key=>$value) {
+                $result[] = utf8_encode($value);
+            }
+        } else {
+            return utf8_encode($data);
         }
         return $result;
     }
