@@ -252,7 +252,7 @@ class Iptc
      */
     public function dump() 
     {
-        return print_r($this->_meta, true);
+        return $this->_charset_encode(print_r($this->_meta, true));
     }
 
     /**
