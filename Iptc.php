@@ -314,7 +314,12 @@ class Iptc
     {
 
         //@see http://php.net/manual/pt_BR/function.iptcembed.php 
-        $content = iptcembed($this->binary(), $this->_filename, 0);    
+        $content = iptcembed($this->binary(), $this->_filename, 0);
+        if ($content === false) {
+            throw new Iptc_Exception(
+                'Failed to save IPTC data into file'
+            );
+        }
 
         unlink($this->_filename);
 
