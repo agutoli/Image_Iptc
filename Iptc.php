@@ -384,8 +384,7 @@ class Iptc
     private function _charset_decode($data) {
         $result = array();
         if (is_array($data)) {
-            $iterator = new RecursiveIteratorIterator(new RecursiveArrayIterator($data)); 
-            foreach($iterator as $value) {
+            foreach(new RecursiveIteratorIterator(new RecursiveArrayIterator($data)) as $value) {
                 $result[] = utf8_decode($value);
             }
         } else {
@@ -404,8 +403,7 @@ class Iptc
     private function _charset_encode($data) {
         $result = array();
         if (is_array($data)) {
-            $iterator = new RecursiveIteratorIterator(new RecursiveArrayIterator($data)); 
-            foreach($iterator as $value) {
+            foreach(new RecursiveIteratorIterator(new RecursiveArrayIterator($data)) as $value) {
                 $result[] = utf8_encode($value);
             }
         } else {
