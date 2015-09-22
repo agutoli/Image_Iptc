@@ -385,7 +385,7 @@ class Iptc
         $result = array();
         if (is_array($data)) {
             $iterator = new RecursiveIteratorIterator(new RecursiveArrayIterator($data)); 
-            foreach($iterator as $key=>$value) {
+            foreach($iterator as $value) {
                 $result[] = utf8_decode($value);
             }
         } else {
@@ -405,7 +405,7 @@ class Iptc
         $result = array();
         if (is_array($data)) {
             $iterator = new RecursiveIteratorIterator(new RecursiveArrayIterator($data)); 
-            foreach($iterator as $key=>$value) {
+            foreach($iterator as $value) {
                 $result[] = utf8_encode($value);
             }
         } else {
