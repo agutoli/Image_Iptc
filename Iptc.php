@@ -26,7 +26,6 @@ require 'Iptc/Exception.php';
 
 class Iptc
 {
-
     const OBJECT_NAME                     = '005';
     const EDIT_STATUS                     = '007';
     const PRIORITY                        = '010';
@@ -100,7 +99,6 @@ class Iptc
      */ 
     public function __construct($filename) 
     {
-
         /**
          * Check PHP version
          * @since 2.0.1
@@ -285,7 +283,6 @@ class Iptc
      */
     public function iptcMakeTag($rec, $dat, $val) 
     {
-    
         //beginning of the binary string
         $iptcTag = chr(0x1c).chr($rec).chr($dat);
 
@@ -308,11 +305,10 @@ class Iptc
      * with the new "IPTC" recorded
      *
      * @access public
-     * @return binary source
+     * @return boolean
      */
     public function write() 
     {
-
         //@see http://php.net/manual/pt_BR/function.iptcembed.php 
         $content = iptcembed($this->binary(), $this->_filename, 0);
         if ($content === false) {
@@ -321,22 +317,15 @@ class Iptc
             );
         }
 
-        unlink($this->_filename);
-
-        if ($file = fopen($this->_filename, "w")) {
-            fwrite($file, $content);
-            //fwrite($file, pack("CCC",0xef,0xbb,0xbf));
-            fclose($file);
-            return true;
-        }
-        return false;
+        @unlink($this->_filename);
+        return file_put_contents($this->_filename, $content) !== false;
     }    
     
     /**
      * completely remove all tags "IPTC" image 
      *
      * @access public
-     * @return binary source
+     * @return void
      */
     public function removeAllTags() 
     {
@@ -355,11 +344,10 @@ class Iptc
      * @param Integer $len - size of the character
      *
      * @access public
-     * @return binary source
+     * @return boolean
      */
     private function _testBitSize($len) 
     {
-    
         if ($len < 0x8000) {
             return
                 chr($len >> 8) .
@@ -379,7 +367,7 @@ class Iptc
      *
      * @param String $data
      * @access private
-     * @return decoded string
+     * @return string decoded string
      */
     private function _charset_decode($data) {
         $result = array();
@@ -399,7 +387,7 @@ class Iptc
      *
      * @param String $data
      * @access private
-     * @return encoded string
+     * @return string encoded string
      */
     private function _charset_encode($data) {
         $result = array();
