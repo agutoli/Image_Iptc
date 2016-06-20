@@ -44,6 +44,7 @@ class Iptc
     const ORIGINATING_PROGRAM             = '065';
     const PROGRAM_VERSION                 = '070';
     const OBJECT_CYCLE                    = '075';
+    const CREATOR                         = '080';
     const CITY                            = '090';
     const PROVINCE_STATE                  = '095';
     const COUNTRY_CODE                    = '100';
@@ -63,11 +64,11 @@ class Iptc
      * @var array
      */
     private $_meta = array();
-    
+
     /**
      * This variable was checks whether any tag class setada
      *
-     * @var boolean 
+     * @var boolean
      */
     private $_hasMeta = false;
 
@@ -81,11 +82,11 @@ class Iptc
 
     /**
      * Image name ex. /home/user/image.jpg
-     * 
+     *
      * @var String
      */
     private $_filename;
-    
+
     /**
      * Constructor class
      *
@@ -96,8 +97,8 @@ class Iptc
      * @see iptcparse
      * @see getimagesize
      * @return void
-     */ 
-    public function __construct($filename) 
+     */
+    public function __construct($filename)
     {
         /**
          * Check PHP version
@@ -105,7 +106,7 @@ class Iptc
          */
         if (version_compare(phpversion(), '5.1.3', '<') === true) {
             throw new Iptc_Exception(
-                'ERROR: Your PHP version is '.phpversion() . 
+                'ERROR: Your PHP version is '.phpversion() .
                     '. Iptc class requires PHP 5.1.3 or newer.'
             );
         }
@@ -115,13 +116,13 @@ class Iptc
                 'Since PHP 4.3 there is a bundled version of the GD lib.'
             );
         }
-       
+
         if ( ! file_exists($filename) ) {
             throw new Iptc_Exception(
                 'Image not found!'
             );
         }
-       
+
         if ( ! is_writable($filename) ) {
             throw new Iptc_Exception(
                 "File \"{$filename}\" is not writable!"
@@ -129,12 +130,12 @@ class Iptc
         }
 
         $parts = explode('.', strtolower($filename));
-        
+
         if ( ! in_array(end($parts), $this->_allowedExt) ) {
             throw new Iptc_Exception(
-                'Support only for the following extensions: ' . 
+                'Support only for the following extensions: ' .
                     implode(',', $this->_allowedExt)
-            ); 
+            );
         }
 
         $size           = getimagesize($filename, $imageinfo);
@@ -152,11 +153,11 @@ class Iptc
      *
      * @param Integer|const $tag  - Code or const of tag
      * @param array|mixed   $data - Value of tag
-     * 
+     *
      * @return Iptc object
      * @access public
      */
-    public function set($tag, $data) 
+    public function set($tag, $data)
     {
         $data = $this->_charset_decode($data);
         $this->_meta["2#{$tag}"] = array($data);
@@ -190,7 +191,7 @@ class Iptc
      *
      * @param Integer|const $tag  - Code or const of tag
      * @param array|mixed   $data - Value of tag
-     * 
+     *
      * @return Iptc object
      * @access public
      */
@@ -210,13 +211,13 @@ class Iptc
      * Return fisrt IPTC tag by tag name
      *
      * @param Integer|const $tag - Name of tag
-     * 
+     *
      * @example $iptc->fetch(Iptc::KEYWORDS);
      *
      * @access public
      * @return mixed|false
      */
-    public function fetch($tag) 
+    public function fetch($tag)
     {
         if (isset($this->_meta["2#{$tag}"])) {
             return $this->_charset_encode($this->_meta["2#{$tag}"][0]);
@@ -228,13 +229,13 @@ class Iptc
      * Return all IPTC tags by tag name
      *
      * @param Integer|const $tag - Name of tag
-     * 
+     *
      * @example $iptc->fetchAll(Iptc::KEYWORDS);
      *
      * @access public
      * @return mixed|false
      */
-    public function fetchAll($tag) 
+    public function fetchAll($tag)
     {
         if (isset($this->_meta["2#{$tag}"])) {
             return $this->_charset_encode($this->_meta["2#{$tag}"]);
@@ -248,7 +249,7 @@ class Iptc
      * @access public
      * @return string
      */
-    public function dump() 
+    public function dump()
     {
         return $this->_charset_encode(print_r($this->_meta, true));
     }
@@ -259,7 +260,7 @@ class Iptc
      * @access public
      * @return string
      */
-    public function binary() 
+    public function binary()
     {
         $iptc = '';
         foreach (array_keys($this->_meta) as $key) {
@@ -268,7 +269,7 @@ class Iptc
                 $iptc .= $this->iptcMakeTag(2, $tag, $value);
             }
         }
-        return $iptc;    
+        return $iptc;
     }
 
     /**
@@ -277,11 +278,11 @@ class Iptc
      * @param Integer $rec - Type of tag ex. 2
      * @param Integer $dat - code of tag ex. 025 or 000 etc
      * @param mixed   $val - any caracterer
-     * 
+     *
      * @access public
      * @return binary source
      */
-    public function iptcMakeTag($rec, $dat, $val) 
+    public function iptcMakeTag($rec, $dat, $val)
     {
         //beginning of the binary string
         $iptcTag = chr(0x1c).chr($rec).chr($dat);
@@ -297,19 +298,19 @@ class Iptc
 
         $len = strlen($val);
         $src = $iptcTag . $this->_testBitSize($len) . $val;
-        return $src;         
-    }    
+        return $src;
+    }
 
     /**
-     * create the new image file already 
+     * create the new image file already
      * with the new "IPTC" recorded
      *
      * @access public
      * @return boolean
      */
-    public function write() 
+    public function write()
     {
-        //@see http://php.net/manual/pt_BR/function.iptcembed.php 
+        //@see http://php.net/manual/pt_BR/function.iptcembed.php
         $content = iptcembed($this->binary(), $this->_filename, 0);
         if ($content === false) {
             throw new Iptc_Exception(
@@ -319,15 +320,15 @@ class Iptc
 
         @unlink($this->_filename);
         return file_put_contents($this->_filename, $content) !== false;
-    }    
-    
+    }
+
     /**
-     * completely remove all tags "IPTC" image 
+     * completely remove all tags "IPTC" image
      *
      * @access public
      * @return void
      */
-    public function removeAllTags() 
+    public function removeAllTags()
     {
         $this->_hasMeta = false;
         $this->_meta    = Array();
@@ -338,22 +339,22 @@ class Iptc
     }
 
     /**
-     * It proper test to ensure that 
-     * the size of the values are supported within the 
+     * It proper test to ensure that
+     * the size of the values are supported within the
      *
      * @param Integer $len - size of the character
      *
      * @access public
      * @return boolean
      */
-    private function _testBitSize($len) 
+    private function _testBitSize($len)
     {
         if ($len < 0x8000) {
             return
                 chr($len >> 8) .
                 chr($len & 0xff);
         }
-        
+
         return
             chr(0x1c).chr(0x04) .
             chr(($len >> 24) & 0xff) .
@@ -361,9 +362,9 @@ class Iptc
             chr(($len >> 8 ) & 0xff) .
             chr(($len ) & 0xff);
     }
-    
+
     /**
-     * Decode charset utf8 before being saved 
+     * Decode charset utf8 before being saved
      *
      * @param String $data
      * @access private
@@ -382,7 +383,7 @@ class Iptc
     }
 
     /**
-     * Encode charset to utf8 before being saved 
+     * Encode charset to utf8 before being saved
      *
      * @param String $data
      * @access private
